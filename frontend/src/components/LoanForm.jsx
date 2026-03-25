@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import EligibilityMeter from "./EligibilityMeter";
 
 export default function LoanForm({ onResult }) {
   const [loading, setLoading] = useState(false);
@@ -60,14 +61,20 @@ export default function LoanForm({ onResult }) {
       };
 
       const res = await axios.post(
-        "http://localhost:5001/predict",
-        payload
-      ); // axios.post(url, data, config) pattern [web:23][web:26]
+        "http://localhost:5000/api/loan/predict",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       onResult(res.data.prediction);
     } catch (err) {
-      console.error(err);
-      alert("Prediction failed");
+      console.error("Prediction Error:", err);
+      const errorMsg = err.response?.data?.message || err.message || "Prediction failed";
+      alert("Prediction failed: " + errorMsg);
     } finally {
       setLoading(false);
     }
@@ -294,28 +301,7 @@ export default function LoanForm({ onResult }) {
 
           {/* RIGHT: ELIGIBILITY METER */}
           <div className="hidden lg:flex flex-col items-center justify-center">
-            <div className="relative h-40 w-40 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shadow-inner">
-              <div
-                className="absolute inset-3 rounded-full bg-gradient-to-br from-blue-500/20 via-cyan-400/20 to-transparent"
-                style={{
-                  boxShadow:
-                    clampScore > 60
-                      ? "0 0 24px rgba(34,197,94,0.4)"
-                      : "0 0 20px rgba(59,130,246,0.45)",
-                }}
-              />
-              <div className="relative z-10 text-center">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-slate-500">
-                  Score
-                </p>
-                <p className="text-3xl font-bold mt-1 text-slate-900">
-                  {clampScore}
-                </p>
-                <p className="text-[11px] mt-1 text-slate-500">
-                  Approx. eligibility meter
-                </p>
-              </div>
-            </div>
+            <EligibilityMeter score={clampScore} />
 
             <p className="mt-4 text-xs text-slate-500 text-center max-w-xs">
               This visual meter is only an approximate indicator based on your

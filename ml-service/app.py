@@ -5,51 +5,77 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(
-    app,
-    resources={r"/*": {"origins": "*"}},
-    supports_credentials=True,
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "OPTIONS"]
-)
-@app.after_request
-def after_request(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-    response.headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-    return response
+# Enable CORS (no need for manual headers below)
+CORS(app)
 
-# Load model and encoders
-model = joblib.load("model.pkl")
-encoders = joblib.load("encoders.pkl")
+# Load model and encoders safely
+try:
+    model = joblib.load("model.pkl")
+    encoders = joblib.load("encoders.pkl")
+except Exception as e:
+    print("Error loading model or encoders:", e)
+    model = None
+    encoders = None
 
+
+# ✅ Home route (fix 404 issue)
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Loan Eligibility API is running"})
+
+
+# ✅ Prediction route
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.json
+    try:
+        if not model or not encoders:
+            return jsonify({"error": "Model not loaded properly"}), 500
 
-    df = pd.DataFrame([{
-        "Gender": data["gender"],
-        "Married": data["married"],
-        "Dependents": data["dependents"],
-        "Education": data["education"],
-        "Self_Employed": data["self_employed"],
-        "Applicant_Income": float(data["applicant_income"]),
-        "Coapplicant_Income": float(data["coapplicant_income"]),
-        "Loan_Amount": float(data["loan_amount"]),
-        "Loan_Amount_Term": float(data["loan_amount_term"]),
-        "Credit_History": float(data["credit_history"]),
-        "Property_Area": data["property_area"]
-    }])
+        data = request.get_json()
 
-    # Apply stored encoders
-    for col, encoder in encoders.items():
-        if col in df.columns:
-            df[col] = encoder.transform(df[col])
+        # Validate input
+        required_fields = [
+            "gender", "married", "dependents", "education",
+            "self_employed", "applicant_income", "coapplicant_income",
+            "loan_amount", "loan_amount_term", "credit_history", "property_area"
+        ]
 
-    prediction = model.predict(df)[0]
-    result = "Approved" if prediction == 1 else "Rejected"
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing field: {field}"}), 400
 
-    return jsonify({"prediction": result})
+        # Create DataFrame
+        df = pd.DataFrame([{
+            "Gender": data["gender"],
+            "Married": data["married"],
+            "Dependents": data["dependents"],
+            "Education": data["education"],
+            "Self_Employed": data["self_employed"],
+            "Applicant_Income": float(data["applicant_income"]),
+            "Coapplicant_Income": float(data["coapplicant_income"]),
+            "Loan_Amount": float(data["loan_amount"]),
+            "Loan_Amount_Term": float(data["loan_amount_term"]),
+            "Credit_History": float(data["credit_history"]),
+            "Property_Area": data["property_area"]
+        }])
 
+        # Apply encoders
+        for col, encoder in encoders.items():
+            if col in df.columns:
+                df[col] = encoder.transform(df[col])
+
+        # Prediction
+        prediction = model.predict(df)[0]
+        result = "Approved" if prediction == 1 else "Rejected"
+
+        return jsonify({
+            "prediction": result
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Run server
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(debug=True, port=5001)

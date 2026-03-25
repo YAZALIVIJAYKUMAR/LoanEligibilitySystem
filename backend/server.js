@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 
 import authRoutes from "./routes/auth.js";
 import loanRoutes from "./routes/loan.js";
+import emiRoutes from "./routes/emi.js";
 
 dotenv.config();
 connectDB();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/loan", loanRoutes);
+app.use("/api/emi", emiRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend running");

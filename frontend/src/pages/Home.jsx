@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LoanForm from "../components/LoanForm";
+import EMICalculator from "../components/EMICalculator";
 
 export default function Home() {
   const [result, setResult] = useState(null);
@@ -70,7 +71,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ✅ IMAGE – NO BOX / NO FRAME */}
           <div>
             <img
               src="/images/image.jpg"
@@ -86,7 +86,6 @@ export default function Home() {
         <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12">
           <LoanForm onResult={setResult} />
 
-          {/* DEMO FLOW */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Demo Flow</h2>
 
@@ -137,13 +136,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= EMI CALCULATOR (ONLY UI CHANGE HERE) ================= */}
+      <section id="calculator" className="py-24 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4">
+            EMI Calculator
+          </h2>
+
+          <p className="text-center text-gray-600 mb-12">
+            Calculate your monthly EMI based on loan amount,
+            interest rate, and tenure.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* LEFT: EMI BOX */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-8">
+              <EMICalculator />
+            </div>
+
+            {/* RIGHT: IMAGE (SEPARATE) */}
+            <div className="flex justify-center">
+              <img
+                src="/images/emi-dummy.png"
+                alt="EMI illustration"
+                className="max-w-sm w-full object-contain opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ================= HOW IT WORKS + WHY LOANPULSE ================= */}
       <section
         id="how"
         className="py-24 bg-gradient-to-br from-blue-50 to-cyan-50 px-6"
       >
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14">
-          {/* HOW IT WORKS */}
           <div>
             <h2 className="text-3xl font-bold mb-14 text-center">
               How It Works
@@ -170,7 +198,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* WHY LOANPULSE */}
           <div>
             <h2 className="text-3xl font-bold mb-14 text-center">
               Why LoanPulse?
@@ -258,69 +285,152 @@ export default function Home() {
 
       {/* ================= FOOTER ================= */}
       <footer className="bg-slate-950 text-slate-300 px-6 py-14">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
-    {/* Brand */}
-    <div>
-      <h3 className="text-xl font-bold text-white mb-2">LoanPulse</h3>
-      <p className="text-sm text-gray-400">
-        Loan eligibility prediction system providing instant,
-        transparent insights before applying for loans.
-      </p>
-    </div>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-2">LoanPulse</h3>
+            <p className="text-sm text-gray-400">
+              Loan eligibility prediction system providing instant,
+              transparent insights before applying for loans.
+            </p>
+          </div>
 
-    {/* Quick Links */}
-    <div>
-      <h4 className="font-semibold text-white mb-3">Quick Links</h4>
-      <ul className="space-y-2 text-sm">
-        <li><a href="#about" className="hover:text-white">About</a></li>
-        <li><a href="#loan" className="hover:text-white">Check Eligibility</a></li>
-        <li><a href="#how" className="hover:text-white">How It Works</a></li>
-        <li><a href="#contact" className="hover:text-white">Contact</a></li>
-      </ul>
-    </div>
+          <div>
+            <h4 className="font-semibold text-white mb-3">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#about" className="hover:text-white">About</a></li>
+              <li><a href="#loan" className="hover:text-white">Check Eligibility</a></li>
+              <li><a href="#calculator" className="hover:text-white">EMI Calculator</a></li>
+              <li><a href="#how" className="hover:text-white">How It Works</a></li>
+              <li><a href="#contact" className="hover:text-white">Contact</a></li>
+            </ul>
+          </div>
 
-    {/* Technology */}
-    <div>
-      <h4 className="font-semibold text-white mb-3">Technology Used</h4>
-      <p className="text-sm text-gray-400">
-        React • Node.js • Express • MongoDB • Python • Machine Learning
-      </p>
-    </div>
+          <div>
+            <h4 className="font-semibold text-white mb-3">Technology Used</h4>
+            <p className="text-sm text-gray-400">
+              React • Node.js • Express • MongoDB • Python • Machine Learning
+            </p>
+          </div>
 
-    {/* ✅ NEW: Contact + GitHub */}
-    <div>
-      <h4 className="font-semibold text-white mb-3">Contact</h4>
-      <p className="text-sm text-gray-400">
-  Email:{" "}
-  <a
-    href="mailto:loanpulse4@gmail.com"
-    className="text-blue-400 hover:text-blue-300 underline"
-  >
-    loanpulse4@gmail.com
-  </a>
-</p>
+          <div>
+            <h4 className="font-semibold text-white mb-3">Contact</h4>
+            <p className="text-sm text-gray-400">
+              Email:{" "}
+              <a
+                href="mailto:loanpulse4@gmail.com"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                loanpulse4@gmail.com
+              </a>
+            </p>
 
-      <p className="text-sm text-gray-400 mt-1">
-        Location: Gujarat, India
-      </p>
+            <p className="text-sm text-gray-400 mt-1">
+              Location: Gujarat, India
+            </p>
 
-      <h4 className="font-semibold text-white mt-4 mb-2">GitHub</h4>
-      <a
-        href="https://github.com/your-username/your-repo"
-        target="_blank"
-        rel="noreferrer"
-        className="text-sm text-cyan-400 hover:text-cyan-300"
-      >
-        github.com/your-username/your-repo
-      </a>
-    </div>
-  </div>
+            <h4 className="font-semibold text-white mt-4 mb-2">GitHub</h4>
+            <a
+              href="https://github.com/YAZALIVIJAYKUMAR/LoanEligibilitySystem"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-cyan-400 hover:text-cyan-300"
+            >
+              https://github.com/YAZALIVIJAYKUMAR/LoanEligibilitySystem
+            </a>
+          </div>
+        </div>
 
-  <div className="mt-10 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-    © {new Date().getFullYear()} LoanPulse
-  </div>
-</footer>
+        <div className="mt-10 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+          © {new Date().getFullYear()} LoanPulse
+        </div>
+      </footer>
     </>
   );
 }
-  
+
+/* ================= EMI CALCULATOR LOGIC (UNCHANGED) ================= */
+
+function EmiCalculator() {
+  const [amount, setAmount] = useState("");
+  const [rate, setRate] = useState("");
+  const [tenure, setTenure] = useState("");
+  const [emi, setEmi] = useState(null);
+
+  const calculateEmi = () => {
+    const P = Number(amount);
+    const R = Number(rate) / 12 / 100;
+    const N = Number(tenure) * 12;
+
+    if (!P || !R || !N) return;
+
+    const value =
+      (P * R * Math.pow(1 + R, N)) /
+      (Math.pow(1 + R, N) - 1);
+
+    setEmi(value.toFixed(2));
+  };
+
+  const resetEmi = () => {
+    setAmount("");
+    setRate("");
+    setTenure("");
+    setEmi(null);
+  };
+
+  return (
+    <div className="grid md:grid-cols-2 gap-10">
+      <div className="space-y-4">
+        <input
+          type="number"
+          placeholder="Loan Amount (₹)"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className="w-full border px-4 py-2 rounded-lg"
+        />
+        <input
+          type="number"
+          placeholder="Interest Rate (% p.a.)"
+          value={rate}
+          onChange={(e) => setRate(e.target.value)}
+          className="w-full border px-4 py-2 rounded-lg"
+        />
+        <input
+          type="number"
+          placeholder="Tenure (Years)"
+          value={tenure}
+          onChange={(e) => setTenure(e.target.value)}
+          className="w-full border px-4 py-2 rounded-lg"
+        />
+
+        <button
+          onClick={calculateEmi}
+          className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition"
+        >
+          Calculate EMI
+        </button>
+
+        <button
+          onClick={resetEmi}
+          className="w-full border border-gray-300 text-gray-700 py-2 rounded-full hover:bg-gray-100 transition"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div className="flex items-center justify-center">
+        {emi ? (
+          <div className="text-center">
+            <p className="text-sm text-gray-500">Monthly EMI</p>
+            <h3 className="text-4xl font-bold text-blue-600 mt-2">
+              ₹ {emi}
+            </h3>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-sm">
+            Enter values to calculate EMI
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}

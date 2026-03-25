@@ -1,6 +1,9 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import LoanFormPage from "./pages/LoanFormPage";
+import EMICalculatorPage from "./pages/EMICalculatorPage";
+import PredictionPage from "./pages/PredictionPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import History from "./pages/History";
@@ -17,6 +20,9 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/loan-form" element={<ProtectedRoute><LoanFormPage /></ProtectedRoute>} />
+        <Route path="/emi-calculator" element={<EMICalculatorPage />} />
+        <Route path="/prediction" element={<PredictionPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

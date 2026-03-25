@@ -19,8 +19,8 @@ export default function History() {
           }
         );
 
-        // ✅ IMPORTANT FIX
-        setHistory(res.data.history || []);
+        // Set history directly from response array
+        setHistory(res.data || []);
       } catch (err) {
         console.error("History fetch error:", err);
       } finally {

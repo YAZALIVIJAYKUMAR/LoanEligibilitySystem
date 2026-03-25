@@ -34,8 +34,10 @@ router.post("/predict", authMiddleware, async (req, res) => {
     });
   } catch (error) {
     console.error("Prediction error:", error.message);
+    console.error("Full error:", error);
     res.status(500).json({
-      message: "Prediction failed",
+      message: error.message || "Prediction failed",
+      details: error.response?.data || {}
     });
   }
 });

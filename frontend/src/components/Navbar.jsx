@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const token = localStorage.getItem("token");
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -56,9 +57,18 @@ export default function Navbar() {
             About
           </a>
 
-          <a href="#loan" className="hover:text-blue-600 transition">
-            Check Eligibility
-          </a>
+          <Link to="/loan-form" className="hover:text-blue-600 transition">
+            Apply Loan
+          </Link>
+
+          {/* ✅ EMI CALCULATOR LINK */}
+          <Link to="/emi-calculator" className="hover:text-blue-600 transition">
+            EMI Calculator
+          </Link>
+
+          <Link to="/prediction" className="hover:text-blue-600 transition">
+            Predictions
+          </Link>
 
           <a href="#how" className="hover:text-blue-600 transition">
             How it Works
