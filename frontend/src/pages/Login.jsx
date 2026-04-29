@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://loan-eligibility-system-pi.vercel.app/_/backend/api/auth/login",
         { email, password }
       );
       localStorage.setItem("token", res.data.token);
@@ -30,7 +30,7 @@ export default function Login() {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google",
+        "https://loan-eligibility-system-pi.vercel.app/_/backend/api/auth/google",
         {
           fullname: decoded.name,
           email: decoded.email,
