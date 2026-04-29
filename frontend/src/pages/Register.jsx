@@ -11,7 +11,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("https://loan-eligibility-system-pi.vercel.app/_/backend/api/auth/register", {
         fullname,
         email,
         password,
