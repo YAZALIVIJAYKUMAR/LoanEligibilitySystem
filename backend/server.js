@@ -8,12 +8,16 @@ import loanRoutes from "./routes/loan.js";
 import emiRoutes from "./routes/emi.js";
 
 dotenv.config();
-connectDB();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/loan", loanRoutes);
