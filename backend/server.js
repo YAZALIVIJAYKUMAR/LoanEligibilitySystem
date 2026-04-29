@@ -11,6 +11,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -22,7 +23,4 @@ app.get("/", (req, res) => {
   res.send("Backend running");
 });
 
-const PORT = 5000;
-app.listen(PORT, () =>
-  console.log(`🚀 Backend running on port ${PORT}`)
-);
+export default app;
